@@ -1,12 +1,12 @@
 package ordemServico.domain.enums;
 
-public enum Priridade {
+public enum Prioridade {
 	BAIXA(0, "BAIXA"), MEDIA(1, "MEDIA"), ALTA(2, "ALTA");
 
 	private Integer codigo;
 	private String descricao;
 
-	private Priridade(Integer codigo, String descricao) {
+	private Prioridade(Integer codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
@@ -27,12 +27,12 @@ public enum Priridade {
 		this.descricao = descricao;
 	}
 	
-	public static Priridade toPerfil(Integer cod) {
+	public static Prioridade toPerfil(Integer cod) {
 		if(cod == null) {
 			return null;
 		}
 		
-		for(Priridade x: Priridade.values()) {
+		for(Prioridade x: Prioridade.values()) {
 			if(cod.equals(x.codigo)) {
 				return x;
 			}
