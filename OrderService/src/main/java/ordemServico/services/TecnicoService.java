@@ -56,10 +56,9 @@ public class TecnicoService {
 	}
 
 	public TecnicoDTO update(Long id, @Valid TecnicoDTO tecnicoDTO) {
-		Tecnico tecnico = findById(id);
+		tecnicoDTO.setId(id);
 		validarCpfEmail(tecnicoDTO);
-		tecnico = new Tecnico(tecnicoDTO);
-		tecnico.setId(id);
+		Tecnico tecnico = new Tecnico(tecnicoDTO);
 		tecnico = repository.save(tecnico);
 		return new TecnicoDTO(tecnico);
 	}
