@@ -3,6 +3,8 @@ package ordemServico.resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,7 @@ public class TecnicoResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<TecnicoDTO> salvar(@RequestBody TecnicoDTO tecnicoDTO){
+	public ResponseEntity<TecnicoDTO> salvar(@Valid @RequestBody TecnicoDTO tecnicoDTO){
 		tecnicoDTO.setId(null);
 		TecnicoDTO tecnico = tecnicoService.created(tecnicoDTO);
 		
