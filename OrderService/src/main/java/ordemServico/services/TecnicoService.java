@@ -3,6 +3,8 @@ package ordemServico.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +53,14 @@ public class TecnicoService {
 		if(obj.isPresent() && obj.get().getId() != tecnicoDTO.getId()) {
 			throw new DataIntegrityViolationException("E-Mail já Cadastrado no sistema");
 		}
+	}
+
+	public TecnicoDTO update(Long id, @Valid TecnicoDTO tecnicoDTO) {
+		Tecnico tecnico = findById(id);
+		validarCpfEmail(tecnicoDTO);
+		tecnico = new Tecnico(tecnicoDTO);
+		tecnico.setId(id);
+		tecnico = repository.save(tecnico);
+		return new TecnicoDTO(tecnico);
 	}
 }
