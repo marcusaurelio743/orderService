@@ -63,4 +63,15 @@ public class TecnicoService {
 		tecnico = repository.save(tecnico);
 		return new TecnicoDTO(tecnico);
 	}
+
+	public void deletar(Long id) {
+		Tecnico obj = findById(id);
+		
+		if(obj.getChamados().size() >0) {
+			throw new DataIntegrityViolationException("Tecnico possui chamados em aberto e não pode ser Apagado!!");
+		}else {
+			repository.delete(obj);
+		}
+		
+	}
 }
