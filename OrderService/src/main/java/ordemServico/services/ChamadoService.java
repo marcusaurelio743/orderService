@@ -1,7 +1,10 @@
 package ordemServico.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,11 +45,15 @@ public class ChamadoService {
 	private Chamado newChamado(ChamadoDTO obj) {
 		Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
 		Cliente cliente = clienteService.findById(obj.getCliente());
+		Chamado chamado = new Chamado();
 		
 		if(obj.getId() != null) {
-			obj.setId(obj.getId());
+			chamado.setId(obj.getId());
 		}
-		Chamado chamado = new Chamado();
+		if(obj.getStatus().equals(2)) {
+			chamado.setDataFechamento(LocalDate.now());
+			
+		}
 		chamado.setCliente(cliente);
 		chamado.setTecnico(tecnico);
 		chamado.setPrioridade(Prioridade.toPerfil(obj.getPrioridade()));
@@ -55,6 +62,12 @@ public class ChamadoService {
 		chamado.setTitulo(obj.getTitulo());
 		
 		return chamado;
+	}
+	public Chamado update(Long id, @Valid ChamadoDTO obj) {
+		obj.setId(id);
+		Chamado oldObj = findById(id);
+		oldObj = newChamado(obj);
+		return chamadoRepository.save(oldObj);
 	}
 	
 	
