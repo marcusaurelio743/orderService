@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ordemServico.domain.Cliente;
@@ -22,6 +23,8 @@ public class ClienteService {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	public Cliente findById(Long id) {
 		Optional<Cliente> cliente = clienteRepository.findById(id);
@@ -36,6 +39,7 @@ public class ClienteService {
 	public ClienteDTO created(@Valid ClienteDTO clienteDTO) {
 		validarCpfEmail(clienteDTO);
 		Cliente cliente = new Cliente(clienteDTO);
+		cliente.setSenha(encoder.encode(clienteDTO.getSenha()));
 		cliente = clienteRepository.save(cliente);
 		
 		return new ClienteDTO(cliente);
@@ -60,7 +64,7 @@ public class ClienteService {
 		validarCpfEmail(clienteDTO);
 		
 		Cliente cliente =new Cliente(clienteDTO);
-		
+		cliente.setSenha(encoder.encode(clienteDTO.getSenha()));
 		cliente = clienteRepository.save(cliente);
 		
 		return new ClienteDTO(cliente);

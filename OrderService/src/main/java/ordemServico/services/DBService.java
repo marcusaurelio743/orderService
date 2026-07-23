@@ -1,6 +1,7 @@
 package ordemServico.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ordemServico.domain.Chamado;
@@ -20,10 +21,12 @@ public class DBService {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private ChamadoRepository chamadoRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	public void instanciaDB() {
-		Cliente cliente = new Cliente(null, "Jose", "123", "jose@email.com", "admin");
-		Tecnico tecnico = new Tecnico(null, "Maria", "5555", "Maria@email.com", "123");
+		Cliente cliente = new Cliente(null, "Jose", "123", "jose@email.com", encoder.encode("admin"));
+		Tecnico tecnico = new Tecnico(null, "Maria", "5555", "Maria@email.com", encoder.encode("123"));
 		
 		Chamado chamado = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Reparo em pc", "desmontar e consertar placa mae", tecnico, cliente);
 		clienteRepository.save(cliente);
